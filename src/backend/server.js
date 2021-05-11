@@ -144,6 +144,7 @@ app.get('/fetch/:file', function (req, res) {
                       .toString('ascii')
                       .split('|')
   console.log('Fetch from user ' + request[0] + ' this song: ' + request[1])
+  let prefetch = projectFolder.concat('/').concat(request[1])
   fs.stat(prefetch, (err, stats) => {
     if (!err && stats.size > 0) {
       console.log(`File ${request[1]} already fetched`)
