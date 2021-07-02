@@ -29,16 +29,16 @@ export default {
   },
   methods: {
     onSubmit (evt) {
-      evt.preventDefault()
-      let self = this
+      evt.preventDefault();
+      let self = this;
       this.$http.post('/api/login', this.credentials).then(response => {
-        self.message = response.body.message
+        self.message = response.body.message;
         if ('localStorage' in window) {
-          localStorage.setItem('streamseek_username', self.credentials.username)
+          localStorage.setItem('streamseek_username', self.credentials.username);
         }
-        this.$router.push('/search')
+        this.$router.push('/search');
       }, response => {
-        self.message = response.body.message
+        self.message = response.body.message;
       })
     }
   }

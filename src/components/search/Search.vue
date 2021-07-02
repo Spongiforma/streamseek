@@ -159,55 +159,55 @@ export default {
   watch: {
     '$route' (to, from) {
       if (to.name === 'Results') {
-        this.searching = true
+        this.searching = true;
 
         // workaround to force collapsing of expanded folders when changing page
         Object.values(this.$refs).forEach(el => {
           el.forEach(btn => {
-            if (!btn.classList.contains('collapsed')) btn.click()
+            if (!btn.classList.contains('collapsed')) btn.click();
           })
         })
-        let reqBody = { username: localStorage.getItem('streamseek_username') }
+        let reqBody = { username: localStorage.getItem('streamseek_username') };
         this.$http.post('/api' + to.path, reqBody).then(response => {
           // console.log('XHR to /api' + to.path + ' done')
-          this.results = response.body
-          this.currentPage = response.body.page
-          this.searching = false
+          this.results = response.body;
+          this.currentPage = response.body.page;
+          this.searching = false;
         }, response => {
-          this.message = response.body.message
-          this.searching = false
+          this.message = response.body.message;
+          this.searching = false;
         })
       }
     }
   },
   methods: {
     onSubmit (evt) {
-      evt.preventDefault()
+      evt.preventDefault();
       // console.log('username: ' + localStorage.getItem('streamseek_username'))
-      let self = this
+      let self = this;
       let body = {
         req: this.search,
         timeout: 2000,
         username: localStorage.getItem('streamseek_username') || (new Date()).getTime()
-      }
-      this.searching = true
+      };
+      this.searching = true;
       this.$http.post('/api/search', body).then(response => {
-        self.limit = response.body.limit
-        self.results = response.body
-        this.searching = false
-        this.$router.push('/results/' + response.body.page + '/' + response.body.limit)
+        self.limit = response.body.limit;
+        self.results = response.body;
+        this.searching = false;
+        this.$router.push('/results/' + response.body.page + '/' + response.body.limit);
       }, response => {
-        self.message = response.body.message
-        this.searching = false
-      })
+        self.message = response.body.message;
+        this.searching = false;
+      });
     },
 
     linkGen (pageNum) {
-      return '/results/' + pageNum + '/' + this.limit
+      return '/results/' + pageNum + '/' + this.limit;
     },
 
     play (user, song, images) {
-      this.playAll(user, [ song ], images)
+      this.playAll(user, [ song ], images);
     },
 
     playAll (folder, songs, images) {
@@ -217,18 +217,18 @@ export default {
           artist: song.file,
           src: '/api/play/' + song.key,
           pic: folder.cover
-        }
-      })
+        };
+      });
 
       songs.forEach(song => {
-        console.log('Fetch ' + song.name)
-        this.$http.get('/api/fetch/' + song.key)
-      })
+        console.log('Fetch ' + song.name);
+        this.$http.get('/api/fetch/' + song.key);
+      });
 
       this.players.push({
         queue: queue
-      })
-      this.players.length > 1 && this.players.shift()
+      });
+      this.players.length > 1 && this.players.shift();
     }
   }
 }
